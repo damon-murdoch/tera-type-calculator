@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+	
+		<title>
+			Pokemon Tera Type Coverage Calculator
+		</title>
+		
+		<!-- Bootstrap External CSS File -->
+		<link rel="stylesheet" href="css/bootstrap.min.css">
+
+	</head>
+	<body class='bg-dark'>
+		<div id='head'>
+			<div id='title' class='text-center'>
+				<h1 class='text-light display-4'>Pokemon Tera Type Coverage Calculator</h1> 
+				<p class='text-light lead'>Developed by <a href='https://twitter.com/SirScrubbington'>Damon Murdoch</a></p>
+				<p class='text-light lead'>Inspired by <a href='https://twitter.com/komvgc'>Gavin Michaels (@komvgc)</a></p>
+			</div>
+		</div>
+		<div id='body' class='container-fluid'>
+		
+			<div class='row'>
+				<div id='col-settings' class='col-s'>
+					<table class="table table-dark text-light">
+						<thead>
+							<tr>
+								<th colspan="2">
+									Settings
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<th>
+									Primary Type
+								</th>
+								<td>
+									<select id='sel-type-primary' class="form-control btn-secondary">
+										<option value="bug">Bug</option>
+										<option value="dark">Dark</option>
+										<option value="dragon">Dragon</option>
+										<option value="electric">Electric</option>
+										<option value="fairy">Fairy</option>
+										<option value="fighting">Fighting</option>
+										<option value="flying">Flying</option>
+										<option value="ghost">Ghost</option>
+										<option value="grass">Grass</option>
+										<option value="ground">Ground</option>
+										<option value="ice">Ice</option>
+										<option value="normal" selected>Normal</option>
+										<option value="poison">Poison</option>
+										<option value="psychic">Psychic</option>
+										<option value="rock">Rock</option>
+										<option value="steel">Steel</option>
+										<option value="water">Water</option>
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<th>
+									Secondary Type
+								</th>
+								<td>
+									<select id='sel-type-secondary' class="form-control btn-secondary">
+										<option value="none" selected>None</option>
+										<option value="bug">Bug</option>
+										<option value="dark">Dark</option>
+										<option value="dragon">Dragon</option>
+										<option value="electric">Electric</option>
+										<option value="fairy">Fairy</option>
+										<option value="fighting">Fighting</option>
+										<option value="flying">Flying</option>
+										<option value="ghost">Ghost</option>
+										<option value="grass">Grass</option>
+										<option value="ground">Ground</option>
+										<option value="ice">Ice</option>
+										<option value="normal">Normal</option>
+										<option value="poison">Poison</option>
+										<option value="psychic">Psychic</option>
+										<option value="rock">Rock</option>
+										<option value="steel">Steel</option>
+										<option value="water">Water</option>
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<th>
+									Ability
+								</th>
+								<td>
+									<select id='sel-ability' class="form-control btn-secondary">
+										<option value="none" selected>None</option>
+									</select>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div id='col-results' class='col'>
+					<table class="table table-dark">
+						<thead>
+							<tr>
+								<th>
+									Type
+								</th>
+								<th>
+									Weaknesses Covered
+								</th>
+								<th>
+									Weaknesses Shared
+								</th>
+								<th>
+									Coverage (%)
+								</th>
+							</tr>
+						</thead>
+						<tbody id="body-results">
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<div id='foot'>
+		</div>
+	</body>
+	<div id='javascript'>
+		
+		<!-- JQuery Source Code -->
+		<script type='text/javascript' src='js/jquery.min.js'>
+		</script>
+		
+		<!-- Bootstrap JavaScript Source Code -->
+		<script type='text/javascript' src='js/bootstrap.min.js'>
+		</script>
+
+		<!-- Pokemon Showdown! Parser Source Code -->
+		<script type='text/javascript' src='js/parser.js'>
+		</script>
+		
+		<!-- AutoComplete Function JavaScript Code -->
+		<script type='text/javascript' src='js/autocomplete.min.js'>
+		</script>
+		
+		<!-- AutoComplete Search Function JavaScript Code -->
+		<script type='text/javascript' src='js/search.js'>
+		</script>
+		
+		<!-- Pokedex JavaScript Data Source File -->
+		<script type='text/javascript' src='data/pokedex.js'>
+		</script>
+		
+		<!-- Pokemon Types JavaScript Data Source File -->
+		<script type='text/javascript' src='data/types.js'>
+		</script>
+		
+		<!-- Pokemon Abilities JavaScript Data Source File -->
+		<script type='text/javascript' src='data/abilities.js'>
+		</script>
+		
+		<!-- Pokemon Moves JavaScript Data source File -->
+		<script type='text/javascript' src='data/moves.js'>
+		</script>
+		
+		<!-- Map 2D Array Math Library Source File -->
+		<script type='text/javascript' src='js/map.js'>
+		</script>
+		
+		<!-- Page JavaScript Source File -->
+		<script type='text/javascript' src='index.js'>
+		</script>
+		
+	</div>
+</html>
