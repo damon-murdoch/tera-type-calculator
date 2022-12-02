@@ -37,7 +37,7 @@ function getCoverageValue(coverage) {
 // of the current type, calculates the strength
 // of the given type as coverage for the tera
 // type.
-function getTeraStrength(type, coverage, strict = false) {
+function getTeraStrength(type, coverage, ability = 'None') {
 
 	// Strength Value:
 	// 4x Weakness -> Immune: 4 Points
@@ -49,66 +49,73 @@ function getTeraStrength(type, coverage, strict = false) {
 	// 2x Weakness -> Resist: 2 Points
 	// 2x Weakness -> Neutral: 1 Point
 
+	// Neutral -> Immune: 3 Points
+	// Neutral -> Resist: 1 Points
 	// Neutral -> Neutral: 0 Points
-
-	// STRICT MODE:
-
-	// 4x Resist -> 2x Resist: -1 Point
-	// 4x Resist -> Neutral: -2 Points
-	// 4x Resist -> 2x Weak: -3 Points
-	// 4x Resist -> 4x Weak: -4 Points
-
-	// 2x Resist -> Neutral: -1 Point
-	// 2x Resist -> 2x Weak: -2 Points
-	// 2x Resist -> 4x Weak: -3 Points
+	// Neutral -> Weak: -1 Points
 
 	// Tera Type Strength
 	strength = {
 
 		// Resistances gained / lost
-		resistancesGained: 0,
-		resistancesShared: 0,
+		resistancesGained: [],
+		resistancesShared: [],
 
 		// Weaknesses gained / lost
-		weaknessesGained: 0,
-		weaknessesShared: 0,
+		weaknessesGained: [],
+		weaknessesShared: [],
 
 		// Calculated as above
-		totalStrength: 0,
-
-		// If strict was enabled
-		strict: strict
+		totalStrength: 0
 	}
 
 	// Get the type coverage for the given type
-	let teraCoverage = getTypeCoverage(type);
+	let teraCoverage = getTypeCoverage(type, ability);
 
 	// Loop over the keys
-	for (let type of Object.keys(Types)) {
+	for (let subtype of Object.keys(Types)) {
 
-		// Weakness / neutrality
-		if (coverage[type] <= 0) {
+		// Neutral
+		if (coverage[subtype] == 0)
+		{
 			// If tera type resists, increment resists gained
-			if (teraCoverage[type] > 0) strength.resistancesGained++;
+			if (teraCoverage[subtype] < 0) {
+				strength.weaknessesGained.push(subtype); // ++;
+			}
+
+			// If tera type resists, increment resists gained
+			if (teraCoverage[subtype] > 0) {
+				strength.resistancesGained.push(subtype); // ++;
+			}
+
+			// Add the tera strength for the new type
+			strength.totalStrength += teraCoverage[subtype];
+		}
+		// Weakness
+		else if (coverage[subtype] < 0) {
+			// If tera type resists, increment resists gained
+			if (teraCoverage[subtype] > 0) {
+				strength.resistancesGained.push(subtype); // ++;
+			}
 
 			// If the tera type is also weak, increment weaknesses shared
-			if (teraCoverage[type] < 0) strength.weaknessesShared++;
+			if (teraCoverage[subtype] < 0) {
+				strength.weaknessesShared.push(subtype); // ++;
+			}
 
 			// Calculate the 'strength' value for the given type
-			strength.totalStrength += (teraCoverage[type] + Math.abs(coverage[type]));
+			strength.totalStrength += (teraCoverage[subtype] + Math.abs(coverage[subtype]));
 		}
 		else // Resistance / immunity
 		{
 			// If tera type resists, increment resists gained
-			if (teraCoverage[type] < 0) strength.weaknessesGained++;
+			if (teraCoverage[subtype] < 0) {
+				strength.weaknessesGained.push(subtype); // ++;
+			}
 
 			// If the tera type is also weak, increment weaknesses shared
-			if (teraCoverage[type] > 0) strength.resistancesShared++;
-
-			// If strict mode is enabled
-			if (strict) {
-				// Modify the strength value based upon the resistance changing
-				strength.totalStrength -= (teraCoverage[type] + Math.abs(coverage[type]));
+			if (teraCoverage[subtype] > 0) {
+				strength.resistancesShared.push(subtype); // ++;
 			}
 		}
 	}
@@ -145,7 +152,69 @@ function getCombinedCoverage(a, b) {
 	return combined;
 }
 
-function getTypeCoverage(type) {
+// Apply the ability to the coverage :)
+function applyAbility(coverage, ability)
+{
+	// Switch on the ability
+	switch(ability)
+	{
+		// Dry Skin
+		case 'DrySkin': 
+			// Immune to Water
+		 	coverage['Water'] = 3;
+
+			// Weaker to Fire
+			coverage['Fire']--;
+			break;
+
+		// Flash Fire
+		case 'FlashFire': 
+		// Immune to Fire
+		coverage['Fire'] = 3;
+		break;
+
+		// Levitate
+		case 'Levitate': 
+		// Immune to Ground
+		coverage['Ground'] = 3;
+		break;
+
+		// Lightning Rod
+		case 'LightningRod': 
+		// Immune to Electric
+		coverage['Electric'] = 3;
+		break;
+		
+		// Sap Sipper
+		case 'SapSipper': 
+		// Immune to Grass
+		coverage['Grass'] = 3;
+		break;
+
+		// Storm Drain
+		case 'StormDrain': 
+			// Immune to Water
+			coverage['Water'] = 3;
+			break;
+
+		// Volt Absorb
+		case 'VoltAbsorb': 
+		// Immune to Electric
+		coverage['Electric'] = 3;
+		break;
+
+		// Water Absorb
+		case 'WaterAbsorb': 
+			// Immune to Water
+			coverage['Water'] = 3;
+			break;
+	}
+
+	// Return the coverage
+	return coverage;
+}
+
+function getTypeCoverage(type, ability = 'None') {
 
 	// Total Type Coverage
 	let typeCoverage = {
@@ -178,11 +247,15 @@ function getTypeCoverage(type) {
 	}
 
 	// Return the type coverage
-	return typeCoverage;
+	return applyAbility(typeCoverage, ability);
 }
 
 // getCoverage(): void
 function getCoverage() {
+
+	// Get the ability from the page
+	let ability = document.getElementById('sel-ability').value;
+
 	// Pokemon Types
 	let types = {
 		// Primary Type (Required)
@@ -193,7 +266,7 @@ function getCoverage() {
 	}
 
 	// Get the coverage for the primary type
-	let coverage = getTypeCoverage(types.primary);
+	let coverage = getTypeCoverage(types.primary, ability);
 
 	// If a secondary type is specified
 	if (types.secondary !== 'None') {
@@ -218,7 +291,7 @@ function getCoverage() {
 	for (let type of Object.keys(Types)) {
 
 		// Calculate the tera type strength for the type
-		let strength = getTeraStrength(type, coverage, false);
+		let strength = getTeraStrength(type, coverage, ability, false);
 
 		// Add the type with the strength to the list
 		teraCoverage.push({
@@ -238,14 +311,29 @@ function getCoverage() {
 
 	// Loop over the objects (in order)
 	for (let type of teraCoverage) {
-		results.innerHTML += "<tr>" +
-			"<th>" + rank + "</th>" +
-			"<td><img src='img/type/sm/" + type.type + ".png'></img></td>" +
-			"<td>" + type.strength.totalStrength + "</td>" + // Strength
-			"<td>" + type.strength.resistancesGained + "</td>" + // Resistances Gained
-			"<td>" + type.strength.resistancesShared + "</td>" + // Resistances Shared
-			"<td>" + type.strength.weaknessesGained + "</td>" + // Weaknesses Gained
-			"<td>" + type.strength.weaknessesShared + "</td>" + // Weaknesses Shared
+		results.innerHTML += 
+			"<tr>" +
+				"<th>" + rank + "</th>" +
+				"<td><img src='img/type/sm/" + type.type + ".png'></img></td>" +
+				"<td>" + 
+					type.strength.totalStrength + 
+				"</td>" + // Strength
+				"<td class='hovertext' data-hover='" + 
+				  (type.strength.resistancesGained.join(", ") || 'None') + "'>" + 
+					type.strength.resistancesGained.length + 
+				"</td>" + // Resistances Gained
+				"<td class='hovertext' data-hover='" + 
+					(type.strength.resistancesShared.join(", ") || 'None') + "'>" + 
+					type.strength.resistancesShared.length + 
+				"</td>" + // Resistances Shared
+				"<td class='hovertext' data-hover='" + 
+					(type.strength.weaknessesGained.join(", ") || 'None') + "'>" + 
+					type.strength.weaknessesGained.length + 
+				"</td>" + // Weaknesses Gained
+				"<td  class='hovertext' data-hover='" + 
+					(type.strength.weaknessesShared.join(", ") || 'None') + "'>" + 
+					type.strength.weaknessesShared.length + 
+				"</td>" + // Weaknesses Shared
 			"</tr>";
 
 		// Increment the rank
@@ -253,4 +341,5 @@ function getCoverage() {
 	}
 }
 
+// Get the default coverage on startup
 getCoverage();

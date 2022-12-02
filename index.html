@@ -11,6 +11,8 @@
 	<!-- Bootstrap External CSS File -->
 	<link rel="stylesheet" href="css/bootstrap.min.css">
 
+	<!-- Hover Text CSS File -->
+	<link rel="stylesheet" href="css/hovertext.css">
 </head>
 
 <body class='bg-dark'>
@@ -35,7 +37,7 @@
 					</thead>
 					<tbody>
 						<tr>
-							<th>
+							<th>  
 								Primary Type
 							</th>
 							<td>
@@ -96,8 +98,17 @@
 								Ability
 							</th>
 							<td>
-								<select id='sel-ability' class="form-control btn-secondary">
-									<option value="none" selected>None</option>
+ 								<select id='sel-ability' class="form-control btn-secondary" 
+									onChange="getCoverage()">
+									<option value="None" selected>None</option>
+									<option value="DrySkin" selected>Dry Skin</option>
+									<option value="FlashFire" selected>Flash Fire</option>
+									<option value="Levitate" selected>Levitate</option>
+									<option value="LightningRod" selected>Lightning Rod</option>
+									<option value="SapSipper" selected>Sap Sipper</option>
+									<option value="StormDrain" selected>Storm Drain</option>
+									<option value="VoltAbsorb" selected>Volt Absorb</option>
+									<option value="WaterAbsorb" selected>Water Absorb</option>
 								</select>
 							</td>
 						</tr>
