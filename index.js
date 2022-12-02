@@ -399,5 +399,8 @@ function getCoverage() {
 	}
 }
 
+// Get the page icon
+getIcon();
+
 // Get the default coverage on startup
 getCoverage();
