@@ -76,8 +76,7 @@ function getTeraStrength(type, coverage, ability = 'None') {
 	for (let subtype of Object.keys(Types)) {
 
 		// Neutral
-		if (coverage[subtype] == 0)
-		{
+		if (coverage[subtype] == 0) {
 			// If tera type resists, increment resists gained
 			if (teraCoverage[subtype] < 0) {
 				strength.weaknessesGained.push(subtype); // ++;
@@ -153,58 +152,113 @@ function getCombinedCoverage(a, b) {
 }
 
 // Apply the ability to the coverage :)
-function applyAbility(coverage, ability)
-{
+function applyAbility(coverage, ability) {
+	/*
+		<!-- Other Abilities -->
+		<option value="Fluffy" selected>Fluffy</option>
+		<option value="ThickFat" selected>Thick Fat</option>
+		<option value="Heatproof" selected>Heatproof</option>
+		<!-- New Abilities -->
+		<option value="Windrider" selected>Windrider</option>
+		<option value="BakedBody" selected>Baked Body</option>
+		<option value="EarthEater" selected>Earth Eater</option>
+		<option value="PurifyingSalt" selected>Purifying Salt</option>
+	*/
+
 	// Switch on the ability
-	switch(ability)
-	{
+	switch (ability) {
+
+		// New Abilities
+
+		case 'Windrider':
+			// Immune to ground
+			coverage['ground'] = 3;
+			break;
+
+		case 'BakedBody':
+			// Immune to fire
+			coverage['fire'] = 3;
+			break;
+
+		case 'EarthEater':
+			// Immune to ground
+			coverage['ground'] = 3;
+			break;
+
+		case 'PurifyingSalt':
+			// Resistant to ghost
+			coverage['ghost']++;
+			break;
+
+		// Weak / Resist Abilities
+
+		case 'Heatproof':
+			// Resistant to fire
+			coverage['fire']++;
+			break;
+
+		case 'ThickFat':
+			// Resistant to fire
+			coverage['fire']++;
+
+			// Resistant to ice
+			coverage['ice']++;
+			break;
+
+		case 'Fluffy':
+			// Weak to fire
+			coverage['fire']--;
+			break;
+
+		// Immunity Abilities
+
 		// Dry Skin
-		case 'DrySkin': 
+		case 'DrySkin':
 			// Immune to Water
-		 	coverage['Water'] = 3;
+			coverage['Water'] = 3;
 
 			// Weaker to Fire
 			coverage['Fire']--;
 			break;
 
 		// Flash Fire
-		case 'FlashFire': 
-		// Immune to Fire
-		coverage['Fire'] = 3;
-		break;
+		case 'FlashFire':
+			// Immune to Fire
+			coverage['Fire'] = 3;
+			break;
 
 		// Levitate
-		case 'Levitate': 
-		// Immune to Ground
-		coverage['Ground'] = 3;
-		break;
+		case 'Levitate':
+			// Immune to Ground
+			coverage['Ground'] = 3;
+			break;
 
 		// Lightning Rod
-		case 'LightningRod': 
-		// Immune to Electric
-		coverage['Electric'] = 3;
-		break;
-		
+		case 'LightningRod':
+			// Immune to Electric
+			coverage['Electric'] = 3;
+			break;
+
 		// Sap Sipper
-		case 'SapSipper': 
-		// Immune to Grass
-		coverage['Grass'] = 3;
-		break;
+		case 'SapSipper':
+			// Immune to Grass
+			coverage['Grass'] = 3;
+			break;
 
 		// Storm Drain
-		case 'StormDrain': 
+		case 'StormDrain':
 			// Immune to Water
 			coverage['Water'] = 3;
 			break;
 
 		// Volt Absorb
-		case 'VoltAbsorb': 
-		// Immune to Electric
-		coverage['Electric'] = 3;
-		break;
+		case 'VoltAbsorb':
+			// Immune to Electric
+			coverage['Electric'] = 3;
+			break;
 
 		// Water Absorb
-		case 'WaterAbsorb': 
+		case 'WaterAbsorb':
 			// Immune to Water
 			coverage['Water'] = 3;
 			break;
@@ -311,29 +365,33 @@ function getCoverage() {
 
 	// Loop over the objects (in order)
 	for (let type of teraCoverage) {
-		results.innerHTML += 
+
+		// Get the progress colour (for the rank)
+		let style = getColorStyle(getProgressColor(1 - (rank / teraCoverage.length)));
+
+		results.innerHTML +=
 			"<tr>" +
-				"<th>" + rank + "</th>" +
-				"<td><img src='img/type/sm/" + type.type + ".png'></img></td>" +
-				"<td>" + 
-					type.strength.totalStrength + 
-				"</td>" + // Strength
-				"<td class='hovertext' data-hover='" + 
-				  (type.strength.resistancesGained.join(", ") || 'None') + "'>" + 
-					type.strength.resistancesGained.length + 
-				"</td>" + // Resistances Gained
-				"<td class='hovertext' data-hover='" + 
-					(type.strength.resistancesShared.join(", ") || 'None') + "'>" + 
-					type.strength.resistancesShared.length + 
-				"</td>" + // Resistances Shared
-				"<td class='hovertext' data-hover='" + 
-					(type.strength.weaknessesGained.join(", ") || 'None') + "'>" + 
-					type.strength.weaknessesGained.length + 
-				"</td>" + // Weaknesses Gained
-				"<td  class='hovertext' data-hover='" + 
-					(type.strength.weaknessesShared.join(", ") || 'None') + "'>" + 
-					type.strength.weaknessesShared.length + 
-				"</td>" + // Weaknesses Shared
+			"<th style='" + style + "'>" + rank + "</th>" +
+			"<td><img src='img/type/sm/" + type.type + ".png'></img></td>" +
+			"<td>" +
+			type.strength.totalStrength +
+			"</td>" + // Strength
+			"<td class='hovertext' data-hover='" +
+			(type.strength.resistancesGained.join(", ") || 'None') + "'>" +
+			type.strength.resistancesGained.length +
+			"</td>" + // Resistances Gained
+			"<td class='hovertext' data-hover='" +
+			(type.strength.resistancesShared.join(", ") || 'None') + "'>" +
+			type.strength.resistancesShared.length +
+			"</td>" + // Resistances Shared
+			"<td class='hovertext' data-hover='" +
+			(type.strength.weaknessesGained.join(", ") || 'None') + "'>" +
+			type.strength.weaknessesGained.length +
+			"</td>" + // Weaknesses Gained
+			"<td  class='hovertext' data-hover='" +
+			(type.strength.weaknessesShared.join(", ") || 'None') + "'>" +
+			type.strength.weaknessesShared.length +
+			"</td>" + // Weaknesses Shared
 			"</tr>";
 
 		// Increment the rank

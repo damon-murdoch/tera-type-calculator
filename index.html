@@ -24,7 +24,6 @@
 		</div>
 	</div>
 	<div id='body' class='container-fluid'>
-
 		<div class='row'>
 			<div id='col-settings' class='col-s'>
 				<table class="table table-dark text-light">
@@ -37,7 +36,7 @@
 					</thead>
 					<tbody>
 						<tr>
-							<th>  
+							<th>
 								Primary Type
 							</th>
 							<td>
@@ -98,9 +97,10 @@
 								Ability
 							</th>
 							<td>
- 								<select id='sel-ability' class="form-control btn-secondary" 
-									onChange="getCoverage()">
+								<select id='sel-ability' class="form-control btn-secondary" onChange="getCoverage()">
 									<option value="None" selected>None</option>
+
+									<!-- Immunity Abilities -->
 									<option value="DrySkin" selected>Dry Skin</option>
 									<option value="FlashFire" selected>Flash Fire</option>
 									<option value="Levitate" selected>Levitate</option>
@@ -109,6 +109,17 @@
 									<option value="StormDrain" selected>Storm Drain</option>
 									<option value="VoltAbsorb" selected>Volt Absorb</option>
 									<option value="WaterAbsorb" selected>Water Absorb</option>
+
+									<!-- Other Abilities -->
+									<option value="Fluffy" selected>Fluffy</option>
+									<option value="ThickFat" selected>Thick Fat</option>
+									<option value="Heatproof" selected>Heatproof</option>
+
+									<!-- New Abilities -->
+									<option value="Windrider" selected>Windrider</option>
+									<option value="BakedBody" selected>Baked Body</option>
+									<option value="EarthEater" selected>Earth Eater</option>
+									<option value="PurifyingSalt" selected>Purifying Salt</option>
 								</select>
 							</td>
 						</tr>
@@ -162,8 +173,6 @@
 			</div>
 		</div>
 	</div>
-	<div id='foot'>
-	</div>
 </body>
 <div id='javascript'>
 
@@ -193,6 +202,10 @@
 
 	<!-- Map 2D Array Math Library Source File -->
 	<script type='text/javascript' src='js/map.js'>
+	</script>
+
+	<!-- Colours JavaScript Source File -->
+	<script type='text/javascript' src='js/colors.js'>
 	</script>
 
 	<!-- Page JavaScript Source File -->

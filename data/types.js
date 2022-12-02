@@ -16,7 +16,7 @@ const TypeEff = {
 	resist: 1,
 	neutral: 0,
 	weak: -1,
-	quadWeak: 2
+	quadWeak: -2
 }
 
 // Types
