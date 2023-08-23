@@ -153,27 +153,11 @@ function getCombinedCoverage(a, b) {
 
 // Apply the ability to the coverage :)
 function applyAbility(coverage, ability) {
-	/*
-		<!-- Other Abilities -->
-		<option value="Fluffy" selected>Fluffy</option>
-		<option value="ThickFat" selected>Thick Fat</option>
-		<option value="Heatproof" selected>Heatproof</option>
-		<!-- New Abilities -->
-		<option value="Windrider" selected>Windrider</option>
-		<option value="BakedBody" selected>Baked Body</option>
-		<option value="EarthEater" selected>Earth Eater</option>
-		<option value="PurifyingSalt" selected>Purifying Salt</option>
-	*/
 
 	// Switch on the ability
 	switch (ability) {
 
 		// New Abilities
-
-		case 'Windrider':
-			// Immune to ground
-			coverage['ground'] = 3;
-			break;
 
 		case 'BakedBody':
 			// Immune to fire
